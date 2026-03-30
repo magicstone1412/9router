@@ -1,4 +1,4 @@
-name: Build & Push to Multiple Registries
+name: Build & Push to GitHub Container Registry
 
 on:
   push:
@@ -41,5 +41,5 @@ jobs:
           push: true
           platforms: linux/amd64,linux/arm64
           tags: |
-            ghcr.io/${{ github.repository_owner }}/openclaw-9router:latest
-            ghcr.io/${{ github.repository_owner }}/openclaw-9router:${{ github.ref_name }}
+            ghcr.io/${{ github.repository_owner }}/9router:latest
+            ghcr.io/${{ github.repository_owner }}/9router:${{ github.ref_name }}
