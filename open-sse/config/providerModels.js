@@ -1,191 +1,5 @@
 import { PROVIDERS } from "./providers.js";
 
-// Global model capabilities registry
-// Only define models that have non-default capabilities
-// Default: { thinking: false,  multimodal: { image: false, audio: false, video: false, pdf: false } }
-export const MODEL_CAPS = {
-  // Claude models — full capabilities
-  "claude-opus-4-6": { thinking: true, multimodal: { image: true, pdf: true } },
-  "claude-sonnet-4-6": { thinking: true, multimodal: { image: true, pdf: true } },
-  "claude-opus-4-6-thinking": { thinking: true, multimodal: { image: true, pdf: true } },
-  "claude-opus-4-5-20251101": { thinking: true, multimodal: { image: true, pdf: true } },
-  "claude-sonnet-4-5-20250929": { thinking: true, multimodal: { image: true, pdf: true } },
-  "claude-haiku-4-5-20251001": { multimodal: { image: true } },
-  "claude-sonnet-4-20250514": { thinking: true, multimodal: { image: true, pdf: true } },
-  "claude-opus-4-20250514": { thinking: true, multimodal: { image: true, pdf: true } },
-  "claude-3-5-sonnet-20241022": { multimodal: { image: true } },
-  // Cursor Claude aliases
-  "claude-4.5-opus-high-thinking": { thinking: true, multimodal: { image: true } },
-  "claude-4.5-opus-high": { multimodal: { image: true } },
-  "claude-4.5-sonnet-thinking": { thinking: true, multimodal: { image: true } },
-  "claude-4.5-sonnet": { multimodal: { image: true } },
-  "claude-4.5-haiku": { multimodal: { image: true } },
-  "claude-4.5-opus": { multimodal: { image: true } },
-  "claude-4.6-opus-max": { thinking: true, multimodal: { image: true } },
-  "claude-4.6-sonnet-medium-thinking": { thinking: true, multimodal: { image: true } },
-  // GitHub Copilot Claude aliases
-  "claude-haiku-4.5": { multimodal: { image: true } },
-  "claude-opus-4.1": { thinking: true, multimodal: { image: true } },
-  "claude-opus-4.5": { thinking: true, multimodal: { image: true } },
-  "claude-sonnet-4": { multimodal: { image: true } },
-  "claude-sonnet-4.5": { thinking: true, multimodal: { image: true } },
-  "claude-sonnet-4.6": { thinking: true, multimodal: { image: true } },
-  "claude-opus-4.6": { thinking: true, multimodal: { image: true } },
-  // Kiro aliases
-  "claude-sonnet-4.5": { thinking: true, multimodal: { image: true } },
-
-  // Gemini models — full multimodal
-  "gemini-3.1-pro-preview": { thinking: true, multimodal: { image: true, audio: true, video: true, pdf: true } },
-  "gemini-3.1-flash-lite-preview": { multimodal: { image: true, audio: true, video: true } },
-  "gemini-3.1-flash-image-preview": { multimodal: { image: true, audio: true, video: true } },
-  "gemini-3-flash-preview": { thinking: true, multimodal: { image: true, audio: true, video: true } },
-  "gemini-3-pro-preview": { thinking: true, multimodal: { image: true, audio: true, video: true, pdf: true } },
-  "gemini-3-flash": { thinking: true, multimodal: { image: true, audio: true, video: true } },
-  "gemini-3.1-pro-high": { thinking: true, multimodal: { image: true, audio: true, video: true, pdf: true } },
-  "gemini-3.1-pro-low": { thinking: true, multimodal: { image: true, audio: true, video: true, pdf: true } },
-  "gemini-2.5-pro": { thinking: true, multimodal: { image: true, audio: true, video: true, pdf: true } },
-  "gemini-2.5-flash": { thinking: true, multimodal: { image: true, audio: true, video: true } },
-  "gemini-2.5-flash-lite": { multimodal: { image: true } },
-  "gemini-2.0-flash": { multimodal: { image: true, audio: true, video: true } },
-  "gemini-2.0-flash-lite": { multimodal: { image: true } },
-
-  // GPT models
-  "gpt-5.4": { multimodal: { image: true } },
-  "gpt-5.4-mini": { multimodal: { image: true } },
-  "gpt-5.3-codex": { thinking: true, multimodal: { image: true } },
-  "gpt-5.3-codex-xhigh": { thinking: true },
-  "gpt-5.3-codex-high": { thinking: true },
-  "gpt-5.3-codex-low": { thinking: true },
-  "gpt-5.3-codex-none": {},
-  "gpt-5.3-codex-spark": {},
-  "gpt-5.2-codex": { thinking: true },
-  "gpt-5.2": { multimodal: { image: true } },
-  "gpt-5.1-codex": { thinking: true },
-  "gpt-5.1-codex-mini": { thinking: true },
-  "gpt-5.1-codex-high": { thinking: true },
-  "gpt-5.1-codex-max": { thinking: true },
-  "gpt-5.1": { multimodal: { image: true } },
-  "gpt-5-codex": { thinking: true },
-  "gpt-5-codex-mini": {},
-  "gpt-5": { multimodal: { image: true } },
-  "gpt-5-mini": { multimodal: { image: true } },
-  "gpt-4o": { multimodal: { image: true, audio: true } },
-  "gpt-4o-mini": { multimodal: { image: true } },
-  "gpt-4-turbo": { multimodal: { image: true } },
-  "gpt-4.1": { multimodal: { image: true } },
-  "gpt-4.1-mini": { multimodal: { image: true } },
-  "gpt-4.1-nano": {},
-  "o3": { thinking: true, multimodal: { image: true } },
-  "o3-mini": { thinking: true },
-  "o3-pro": { thinking: true, multimodal: { image: true } },
-  "o4-mini": { thinking: true, multimodal: { image: true } },
-  "o1": { thinking: true, multimodal: { image: true } },
-  "o1-mini": { thinking: true },
-
-  // DeepSeek models
-  "deepseek-chat": {},
-  "deepseek-reasoner": { thinking: true },
-  "deepseek-r1": { thinking: true },
-  "deepseek-v3": {},
-  "deepseek-v3.1": {},
-  "deepseek-v3.2": {},
-  "deepseek-3.1": {},
-  "deepseek-3.2": {},
-  "deepseek-ai/DeepSeek-R1": { thinking: true },
-  "deepseek-ai/DeepSeek-V3": {},
-  "deepseek-ai/DeepSeek-V3.2": {},
-  "deepseek-ai/DeepSeek-V3.1": {},
-  "deepseek-ai/deepseek-v3.2-maas": {},
-
-  // Qwen models
-  "qwen3-vl-plus": { multimodal: { image: true } },
-  "vision-model": { multimodal: { image: true } },
-  "qwen3-coder-plus": {},
-  "qwen3-coder-flash": {},
-  "qwen3-max": { thinking: true },
-  "qwen3-max-preview": { thinking: true },
-  "qwen3-235b": { thinking: true },
-  "qwen3-235b-a22b-instruct": {},
-  "qwen3-235b-a22b-thinking-2507": { thinking: true },
-  "qwen3-32b": { thinking: true },
-  "qwen3-coder-next": {},
-  "qwen3.5-plus": {},
-  "qwen/qwen3-32b": { thinking: true },
-  "qwen/qwen3-next-80b-a3b-thinking-maas": { thinking: true },
-  "qwen/qwen3-next-80b-a3b-instruct-maas": {},
-  "Qwen/Qwen3-235B-A22B": { thinking: true },
-  "Qwen/Qwen3-235B-A22B-Instruct-2507": {},
-  "Qwen/Qwen3-Coder-480B-A35B-Instruct": {},
-  "Qwen/Qwen3-32B": { thinking: true },
-  "qwen-3-235b-a22b-instruct-2507": {},
-  "qwen-3-32b": { thinking: true },
-
-  // Kimi models
-  "kimi-k2": {},
-  "kimi-k2.5": {},
-  "kimi-k2.5-thinking": { thinking: true },
-  "kimi-latest": {},
-  "moonshotai/Kimi-K2.5": {},
-  "moonshotai/kimi-k2.5": {},
-
-  // GLM models
-  "glm-5.1": {},
-  "glm-5": {},
-  "glm-4.7": {},
-  "glm-4.6v": { multimodal: { image: true } },
-  "glm-4.6": {},
-  "glm-4.5-air": {},
-  "glm-4.7-flash": {},
-  "z-ai/glm4.7": {},
-  "zai-org/GLM-4.7": {},
-  "zai-glm-4.7": {},
-  "zai-org/glm-5-maas": {},
-
-  // Grok models
-  "grok-4": { thinking: true, multimodal: { image: true } },
-  "grok-4-fast-reasoning": { thinking: true },
-  "grok-code-fast-1": {},
-  "grok-3": { multimodal: { image: true } },
-
-  // GPT-OSS (no toolUse)
-  "gpt-oss-120b": {},
-  "gpt-oss-120b-medium": {},
-  "openai/gpt-oss-120b": {},
-  "gpt-oss:120b": {},
-
-  // Llama models
-  "meta-llama/Llama-3.3-70B-Instruct-Turbo": {},
-  "meta-llama/Llama-4-Maverick-17B-128E-Instruct-FP8": { multimodal: { image: true } },
-  "meta-llama/llama-4-maverick-17b-128e-instruct": { multimodal: { image: true } },
-  "meta-llama/Llama-3.3-70B-Instruct": {},
-  "meta-llama/Llama-3.2-3B-Instruct": {},
-  "llama-3.3-70b-versatile": {},
-  "llama-3.3-70b": {},
-  "llama-4-scout-17b-16e-instruct": { multimodal: { image: true } },
-};
-
-// Default capabilities for unknown models
-const DEFAULT_CAPS = { thinking: false, multimodal: { image: false, audio: false, video: false, pdf: false } };
-
-// Merge caps: global as base, provider entry overrides
-function mergeCaps(global, override) {
-  if (!override) return global;
-  return {
-    thinking: override.thinking ?? global.thinking,
-    multimodal: { ...global.multimodal, ...override.multimodal }
-  };
-}
-
-// Resolve model capabilities: provider override → global → default
-export function getModelCaps(alias, modelId) {
-  const entry = PROVIDER_MODELS[alias]?.find(m => m.id === modelId);
-  const global = MODEL_CAPS[modelId] ?? DEFAULT_CAPS;
-  // Extract caps fields from entry (exclude id, name, type, targetFormat)
-  const { id, name, type, targetFormat, ...overrideCaps } = entry || {};
-  const hasOverride = Object.keys(overrideCaps).length > 0;
-  return mergeCaps({ ...DEFAULT_CAPS, ...global }, hasOverride ? overrideCaps : null);
-}
-
 // Provider models - Single source of truth
 // Key = alias (cc, cx, gc, qw, if, ag, gh for OAuth; id for API Key)
 // Field "provider" for special cases (e.g. AntiGravity models that call different backends)
@@ -293,9 +107,9 @@ export const PROVIDER_MODELS = {
     // { id: "claude-opus-4.5", name: "Claude Opus 4.5" },
     { id: "claude-sonnet-4.5", name: "Claude Sonnet 4.5" },
     { id: "claude-haiku-4.5", name: "Claude Haiku 4.5" },
-    { id: "deepseek-3.2", name: "DeepSeek 3.2" },
-    { id: "deepseek-3.1", name: "DeepSeek 3.1" },
-    { id: "qwen3-coder-next", name: "Qwen3 Coder Next" },
+    { id: "deepseek-3.2", name: "DeepSeek 3.2", strip: ["image", "audio"] },
+    { id: "deepseek-3.1", name: "DeepSeek 3.1", strip: ["image", "audio"] },
+    { id: "qwen3-coder-next", name: "Qwen3 Coder Next", strip: ["image", "audio"] },
   ],
   cu: [  // Cursor IDE
     { id: "default", name: "Auto (Server Picks)" },
@@ -330,9 +144,10 @@ export const PROVIDER_MODELS = {
   ],
   oc: [  // OpenCode
     { id: "nemotron-3-super-free", name: "Nemotron 3 Super" },
-    { id: "qwen3.6-plus-free", name: "Qwen 3.6 Plus" },
+    // { id: "qwen3.6-plus-free", name: "Qwen 3.6 Plus" },
     // { id: "big-pickle", name: "Big Pickle", targetFormat: "claude" },
     { id: "minimax-m2.5-free", name: "MiniMax M2.5", targetFormat: "claude" },
+    // { id: "trinity-large-preview-free", name: "Trinity Large Preview" },
   ],
 
   cl: [  // Cline
@@ -397,6 +212,8 @@ export const PROVIDER_MODELS = {
     // Gemini 2.0 series (retiring June 1, 2026)
     { id: "gemini-2.0-flash", name: "Gemini 2.0 Flash" },
     { id: "gemini-2.0-flash-lite", name: "Gemini 2.0 Flash Lite" },
+    { id: "gemma-4-31b-it", name: "Gemma 4 31B IT" },
+
     // Embedding models
     { id: "gemini-embedding-2-preview", name: "Gemini Embedding 2 Preview", type: "embedding" },
     { id: "gemini-embedding-001", name: "Gemini Embedding 001", type: "embedding" },
@@ -549,6 +366,63 @@ export const PROVIDER_MODELS = {
     { id: "qwen/qwen3-next-80b-a3b-instruct-maas", name: "Qwen3 Next 80B Instruct (Vertex)" },
     { id: "zai-org/glm-5-maas", name: "GLM-5 (Vertex)" },
   ],
+
+  // Free/noAuth TTS providers
+  "local-device": [
+    { id: "default", name: "System Default Voice", type: "tts" },
+  ],
+  "google-tts": [
+    { id: "en", name: "English", type: "tts" },
+    { id: "vi", name: "Vietnamese", type: "tts" },
+    { id: "zh-CN", name: "Chinese (Simplified)", type: "tts" },
+    { id: "fr", name: "French", type: "tts" },
+    { id: "de", name: "German", type: "tts" },
+    { id: "ja", name: "Japanese", type: "tts" },
+    { id: "ko", name: "Korean", type: "tts" },
+  ],
+  // OpenAI TTS voices (hardcoded — no public API to list them)
+  // Used by ttsCore.js when provider = openai
+  "openai-tts-voices": [
+    { id: "alloy",   name: "Alloy",   type: "tts" },
+    { id: "ash",     name: "Ash",     type: "tts" },
+    { id: "ballad",  name: "Ballad",  type: "tts" },
+    { id: "cedar",   name: "Cedar",   type: "tts" },
+    { id: "coral",   name: "Coral",   type: "tts" },
+    { id: "echo",    name: "Echo",    type: "tts" },
+    { id: "fable",   name: "Fable",   type: "tts" },
+    { id: "marin",   name: "Marin",   type: "tts" },
+    { id: "nova",    name: "Nova",    type: "tts" },
+    { id: "onyx",    name: "Onyx",    type: "tts" },
+    { id: "sage",    name: "Sage",    type: "tts" },
+    { id: "shimmer", name: "Shimmer", type: "tts" },
+    { id: "verse",   name: "Verse",   type: "tts" },
+  ],
+  // OpenAI TTS models
+  "openai-tts-models": [
+    { id: "gpt-4o-mini-tts", name: "GPT-4o Mini TTS", type: "tts" },
+    { id: "tts-1-hd",        name: "TTS-1 HD",        type: "tts" },
+    { id: "tts-1",           name: "TTS-1",           type: "tts" },
+  ],
+  // ElevenLabs TTS models
+  "elevenlabs-tts-models": [
+    { id: "eleven_flash_v2_5",       name: "Flash v2.5 (Fastest)",     type: "tts" },
+    { id: "eleven_turbo_v2_5",       name: "Turbo v2.5 (Fast)",        type: "tts" },
+    { id: "eleven_multilingual_v2",  name: "Multilingual v2 (Quality)", type: "tts" },
+    { id: "eleven_monolingual_v1",   name: "Monolingual v1 (English)", type: "tts" },
+  ],
+  "edge-tts": [
+    { id: "en-US-AriaNeural", name: "Aria (en-US)", type: "tts" },
+    { id: "en-US-GuyNeural", name: "Guy (en-US)", type: "tts" },
+    { id: "en-GB-SoniaNeural", name: "Sonia (en-GB)", type: "tts" },
+    { id: "vi-VN-HoaiMyNeural", name: "Hoai My (vi-VN)", type: "tts" },
+    { id: "vi-VN-NamMinhNeural", name: "Nam Minh (vi-VN)", type: "tts" },
+    { id: "zh-CN-XiaoxiaoNeural", name: "Xiaoxiao (zh-CN)", type: "tts" },
+    { id: "zh-CN-YunxiNeural", name: "Yunxi (zh-CN)", type: "tts" },
+    { id: "fr-FR-DeniseNeural", name: "Denise (fr-FR)", type: "tts" },
+    { id: "de-DE-KatjaNeural", name: "Katja (de-DE)", type: "tts" },
+    { id: "ja-JP-NanamiNeural", name: "Nanami (ja-JP)", type: "tts" },
+    { id: "ko-KR-SunHiNeural", name: "SunHi (ko-KR)", type: "tts" },
+  ],
 };
 
 // Helper functions
@@ -611,5 +485,9 @@ export function getModelsByProviderId(providerId) {
   return PROVIDER_MODELS[alias] || [];
 }
 
-// Re-export getModelCaps here for convenience (defined above PROVIDER_MODELS)
-// getModelCaps is already exported above
+// Get strip list for a model entry (explicit opt-in only)
+// Returns array of content types to strip, e.g. ["image", "audio"]
+export function getModelStrip(alias, modelId) {
+  const entry = PROVIDER_MODELS[alias]?.find(m => m.id === modelId);
+  return entry?.strip || [];
+}
